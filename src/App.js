@@ -1,25 +1,21 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import CoordinateGrid from './components/CoordinateGrid';
+
 
 class App extends Component {
   render() {
+    const coordinateGridStyle = {
+      height: 750,
+      width: 750,
+      border: "1px solid black",
+    }
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <div style={coordinateGridStyle}>
+          <CoordinateGrid xGridStep='100' yGridStep='100' xScale='1000' yScale='1000' />
+        </div>
       </div>
     );
   }
