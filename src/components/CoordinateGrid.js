@@ -1,27 +1,28 @@
 import React, { Component } from 'react';
 import PointCharge from './PointCharge';
 
+const gridPointStyle = {
+    'fill-opacity': 0.5, 
+}
+
+const customChargeStyle = {
+    fill: 'red',
+}
 
 export default class CoordinateGrid extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            pointCharges: [],
-            gridPoints: [],
-        };
-    }
-
-    componentDidMount() {
-        this.constructGridPoints();
-    }
-
     constructGridPoints() {
         const {
+            displayGrid,
             xGridStep,
             yGridStep,
             xScale,
             yScale,
+            charges,
         } = this.props;
+
+        if (!displayGrid) {
+            return [];
+        }
 
         const xGridQuantity = Math.floor(xScale/xGridStep);
         const yGridQuantity = Math.floor(yScale/yGridStep);
@@ -40,30 +41,39 @@ export default class CoordinateGrid extends Component {
                         y={yCoordinate} 
                         r="2.5" 
                         charge={100.0} 
-                        key={`gridPointKey-${i}-${j}`} 
+                        key={`gridPointKey-${i}-${j}`}
+                        charges={charges}
+                        style={gridPointStyle}
                     />
                 );
             }
         }
-
-        this.setState({
-            gridPoints,
-        });
+        return gridPoints;
     }
 
     render() {
+        const gridPoints = this.constructGridPoints();
         const {
-            // displayGrid,
-            // displayNeedles,
-            // xGridStep,
-            // yGridStep,
             xScale,
             yScale,
+            charges,
         } = this.props;
 
         return (
             <svg viewBox={`0 0 ${xScale} ${yScale}`}>
-                {this.state.gridPoints}
+                {gridPoints}
+                {charges.map(charge =>
+                    <PointCharge
+                        showVectors={true} 
+                        x={charge.x}
+                        y={charge.y}
+                        r={5}
+                        charge={charge.charge}
+                        charges={charges}
+                        styling={customChargeStyle}
+                        key={`pointChargeKey-${charge.x}-${charge.y}`}
+                    />
+                )}
             </svg>
         );
     }

@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 
 
-const charges = [
+const vectorLineStyles = [
     {
-        x: 255,
-        y: 305,
-        charge: 35.000,
+        stroke:'rgb(255,0,0)',
+        strokeWidth: '1',
     },
     {
-        x: 438,
-        y: 678,
-        charge: 46.5,
-    }
+        stroke:'rgb(0,0,255)',
+        strokeWidth: '1',
+    },
 ]
 
 const vectorLineStyle = {
@@ -25,54 +23,25 @@ const totalVectorLineStyle = {
 }
 
 export default class PointCharge extends Component {
-    // coulumbForceVector(pointCharges) {
-    //     var vector = {
-    //         x: 0,
-    //         y: 0,
-    //     }
-    //     for (var i=0; i < pointCharges.length; i++) {
-    //         const pointCharge = pointCharges[i];
-    //         const xDelta = this.props.x - pointCharge.x;
-    //         const yDelta = this.props.y - pointCharge.y;
-    //         const distance = Math.sqrt(xDelta^2 + yDelta^2);
-    //         const unitVector = {
-    //             x: xDelta / distance,
-    //             y: yDelta / distance,
-    //         }
-    //         vector.x += unitVector.x * 
-    //     }
-    // }
-
-    coulumbForce(pointCharge) {
-        const xDelta = this.props.x - pointCharge.x;
-        const yDelta = this.props.y - pointCharge.y;
-        const distance = Math.sqrt(Math.abs(Math.pow(xDelta, 2) + Math.pow(yDelta, 2)));
-        const unitVector = {
-            x: xDelta / distance,
-            y: yDelta / distance,
-        }
-        const magnitude = (pointCharge.charge * this.props.charge) / (distance^2);
-        
-        return {
-            x: unitVector.x * magnitude,
-            y: unitVector.y * magnitude,
-        }
-    }
-
     render() {
         var vectorLines = [];
         var coulumbForces = [];
+        const {
+            charges,
+        } = this.props;
         if (this.props.showVectors) { 
             for (var i=0; i < charges.length; i++) {
-                const forceFromCharge = this.coulumbForce(charges[i]);
+                const forceFromCharge = coulumbForce(charges[i], 
+                    {x: this.props.x, y: this.props.y, charge: this.props.charge}
+                );
                 coulumbForces.push(forceFromCharge);
                 vectorLines.push(
                     <line 
                         x1={this.props.x} 
                         y1={this.props.y} 
-                        x2={this.props.x + forceFromCharge.x} 
+                        x2={this.props.x + forceFromCharge.x}
                         y2={this.props.y + forceFromCharge.y}
-                        style={vectorLineStyle}
+                        style={vectorLineStyle[i]}
                     />
                 );
             }
@@ -86,6 +55,7 @@ export default class PointCharge extends Component {
             totalVector.x += victor.x;
             totalVector.y += victor.y;
         }
+        if (totalVector.x >= 1000) { debugger }
         return (
             <React.Fragment>
                 {vectorLines}
@@ -96,8 +66,35 @@ export default class PointCharge extends Component {
                     y2={this.props.y + totalVector.y}
                     style={totalVectorLineStyle}
                 />
-                <circle cx={this.props.x} cy={this.props.y} r={this.props.r} />
+                <circle 
+                    cx={this.props.x} 
+                    cy={this.props.y} 
+                    r={this.props.r} 
+                    style={this.props.styling}
+                />
             </React.Fragment>
         );
+    }
+}
+
+const coulumbForce = (sourceCharge, targetCharge) => {
+    if (sourceCharge.x === targetCharge.x && sourceCharge.y === targetCharge.y) {
+        return {
+            x: 0,
+            y: 0,
+        };
+    }
+    const xDelta = targetCharge.x - sourceCharge.x;
+    const yDelta = targetCharge.y - sourceCharge.y;
+    const distance = Math.sqrt(Math.pow(xDelta, 2) + Math.pow(yDelta, 2));
+    const unitVector = {
+        x: xDelta / distance,
+        y: yDelta / distance,
+    }
+    const magnitude = (sourceCharge.charge * targetCharge.charge) / (distance^2);
+    
+    return {
+        x: unitVector.x * magnitude,
+        y: unitVector.y * magnitude,
     }
 }
