@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
 import PointCharge from './PointCharge';
 
-const gridPointStyle = {
-    'fill-opacity': 0.5, 
+const gridPointStyle = (displayGridPoints) => {
+    if (displayGridPoints) {
+        return {
+            fill: 'blue',
+        }
+    }
+    else {
+        return {
+            display: 'none',
+        }
+    }
 }
 
 const customChargeStyle = {
@@ -12,7 +21,7 @@ const customChargeStyle = {
 export default class CoordinateGrid extends Component {
     constructGridPoints() {
         const {
-            displayGrid,
+            displayPreferences,
             xGridStep,
             yGridStep,
             xScale,
@@ -20,7 +29,7 @@ export default class CoordinateGrid extends Component {
             charges,
         } = this.props;
 
-        if (!displayGrid) {
+        if (!displayPreferences.displayGrid) {
             return [];
         }
 
@@ -36,14 +45,15 @@ export default class CoordinateGrid extends Component {
                 const yCoordinate = j * yGridStep + yOffset;
                 gridPoints.push(
                     <PointCharge 
-                        showVectors={true} 
-                        x={xCoordinate} 
-                        y={yCoordinate} 
-                        r="2.5" 
-                        charge={100.0} 
+                        showVectors={displayPreferences.displayGridVectors}
+                        showPoint={displayPreferences.displayGridPoints}
+                        x={xCoordinate}
+                        y={yCoordinate}
+                        r="2.5"
+                        charge={100.0}
                         key={`gridPointKey-${i}-${j}`}
                         charges={charges}
-                        style={gridPointStyle}
+                        styling={gridPointStyle(displayPreferences.displayGridPoints)}
                     />
                 );
             }
@@ -64,7 +74,8 @@ export default class CoordinateGrid extends Component {
                 {gridPoints}
                 {charges.map(charge =>
                     <PointCharge
-                        showVectors={true} 
+                        showVectors={true}
+                        showPoint={true}
                         x={charge.x}
                         y={charge.y}
                         r={5}

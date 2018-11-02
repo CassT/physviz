@@ -1,6 +1,3 @@
-import { addPointCharge } from '../actions';
-
-
 const pointCharges = (state = [], action) => {
     switch(action.type) {
         case 'ADD_POINT_CHARGE':

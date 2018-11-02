@@ -28,19 +28,24 @@ export default class PointCharge extends Component {
         var coulumbForces = [];
         const {
             charges,
+            showPoint,
+            showVectors,
+            charge,
+            x,
+            y,
         } = this.props;
-        if (this.props.showVectors) { 
+        if (showVectors) { 
             for (var i=0; i < charges.length; i++) {
                 const forceFromCharge = coulumbForce(charges[i], 
-                    {x: this.props.x, y: this.props.y, charge: this.props.charge}
+                    {x: x, y: y, charge: charge}
                 );
                 coulumbForces.push(forceFromCharge);
                 vectorLines.push(
                     <line 
-                        x1={this.props.x} 
-                        y1={this.props.y} 
-                        x2={this.props.x + forceFromCharge.x}
-                        y2={this.props.y + forceFromCharge.y}
+                        x1={x} 
+                        y1={y} 
+                        x2={x + forceFromCharge.x}
+                        y2={y + forceFromCharge.y}
                         style={vectorLineStyle[i]}
                     />
                 );
@@ -55,7 +60,6 @@ export default class PointCharge extends Component {
             totalVector.x += victor.x;
             totalVector.y += victor.y;
         }
-        if (totalVector.x >= 1000) { debugger }
         return (
             <React.Fragment>
                 {vectorLines}

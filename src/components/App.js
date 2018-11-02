@@ -1,26 +1,25 @@
 import React, { Component } from 'react';
 import '../App.css';
-import CoordinateGrid from './CoordinateGrid';
 import ControlPanel from './ControlPanel';
 import GridContainer from '../containers/GridContainer';
-import AddPointCharge from '../containers/AddPointCharge';
+
+const panelStyle = {
+  height: 750,
+  width: 750,
+  border: "1px solid black",
+  float: "left",
+  clear: "none",
+}
+const controlPanelStyle = {
+  height: 750,
+  width: 250,
+  border: "1px solid black",
+  float: "left",
+  clear: "none",
+}
 
 class App extends Component {
   render() {
-    const panelStyle = {
-      height: 750,
-      width: 750,
-      border: "1px solid black",
-      float: "left",
-      clear: "none",
-    }
-    const controlPanelStyle = {
-      height: 750,
-      width: 250,
-      border: "1px solid black",
-      float: "left",
-      clear: "none",
-    }
     return (
       <div>
         <div style={panelStyle}>
