@@ -4,11 +4,21 @@ const pointCharges = (state = [], action) => {
             return [
                 ...state,
                 {
+                    id: action.id,
                     charge: action.charge,
                     x: action.x,
                     y: action.y,
                 },
             ];
+        case 'UPDATE_POINT_CHARGE':
+            var newState = state.slice();
+            newState[action.id] = {
+                id: action.id,
+                charge: action.charge,
+                x: action.x,
+                y: action.y,
+            }
+            return newState;
         default:
             return state;
     }

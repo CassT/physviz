@@ -1,23 +1,6 @@
 import React, { Component } from 'react';
 import PointCharge from './PointCharge';
 
-const gridPointStyle = (displayGridPoints) => {
-    if (displayGridPoints) {
-        return {
-            fill: 'blue',
-        }
-    }
-    else {
-        return {
-            display: 'none',
-        }
-    }
-}
-
-const customChargeStyle = {
-    fill: 'red',
-}
-
 export default class CoordinateGrid extends Component {
     constructGridPoints() {
         const {
@@ -79,13 +62,41 @@ export default class CoordinateGrid extends Component {
                         x={charge.x}
                         y={charge.y}
                         r={5}
+                        id={charge.id}
                         charge={charge.charge}
                         charges={charges}
-                        styling={customChargeStyle}
-                        key={`pointChargeKey-${charge.x}-${charge.y}`}
+                        styling={customChargeStyle(this.props.displayPreferences.selectedPointChargeId === charge.id)}
+                        key={`pointChargeKey-${charge.id}`}
+                        onClick={() => this.props.selectPointCharge(charge.id)}
                     />
                 )}
             </svg>
         );
+    }
+}
+
+const gridPointStyle = (displayGridPoints) => {
+    if (displayGridPoints) {
+        return {
+            fill: 'blue',
+        }
+    }
+    else {
+        return {
+            display: 'none',
+        }
+    }
+}
+
+const customChargeStyle = (selected) => {
+    if (selected) {
+        return {
+            fill: 'red',
+        }
+    }
+    else {
+        return {
+            fill: 'green',
+        }
     }
 }

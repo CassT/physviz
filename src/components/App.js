@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import ControlPanel from './ControlPanel';
 import GridContainer from '../containers/GridContainer';
+import SelectedChargeControlsContainer from '../containers/SelectedChargeControlsContainer';
 
 const panelStyle = {
   height: 750,
@@ -10,6 +11,7 @@ const panelStyle = {
   float: "left",
   clear: "none",
 }
+
 const controlPanelStyle = {
   height: 750,
   width: 250,
@@ -23,10 +25,17 @@ class App extends Component {
     return (
       <div>
         <div style={panelStyle}>
-          <GridContainer charges={this.props.pointCharges} xGridStep='100' yGridStep='100' xScale='1000' yScale='1000' />
+          <GridContainer 
+            charges={this.props.pointCharges} 
+            xGridStep='100' 
+            yGridStep='100' 
+            xScale='1000' 
+            yScale='1000' 
+          />
         </div>
         <div style={controlPanelStyle}>
           <ControlPanel />
+          <SelectedChargeControlsContainer />
         </div>
       </div>
     );

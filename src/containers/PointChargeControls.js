@@ -31,4 +31,4 @@ const AddPointCharge = ({dispatch}) => {
     )
 }
 
-export default connect()(AddPointCharge)
+export default connect()(AddPointCharge);

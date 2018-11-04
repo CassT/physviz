@@ -6,6 +6,7 @@ import rootReducer from './reducers';
 import App from './components/App';
 
 const store = createStore(rootReducer);
+window.store = store;
 render(
     <Provider store={store}>
         <App />

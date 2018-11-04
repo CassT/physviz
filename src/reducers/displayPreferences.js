@@ -2,6 +2,7 @@ const defaultDisplayState = {
     displayGrid: true,
     displayGridPoints: true,
     displayGridVectors: true,
+    selectedPointChargeId: -1,
 }
 
 const displayPreferences = (state = defaultDisplayState, action) => {
@@ -20,6 +21,11 @@ const displayPreferences = (state = defaultDisplayState, action) => {
             return {
                 ...state,
                 displayGridVectors: !state.displayGridVectors,
+            }
+        case 'SELECT_POINT_CHARGE':
+            return {
+                ...state,
+                selectedPointChargeId: action.id,
             }
         default:
             return state;

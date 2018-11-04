@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import { addPointCharge } from '../actions';
+import { selectPointCharge } from '../actions';
 import CoordinateGrid from '../components/CoordinateGrid';
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
     return {
         charges: state.pointCharges,
         displayPreferences: state.displayPreferences,
@@ -10,8 +10,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = dispatch => ({
-    addPointCharge: (charge, x, y) => dispatch(
-        addPointCharge(charge, x, y)
+    selectPointCharge: (id) => dispatch(
+        selectPointCharge(id),
     )
 });
 

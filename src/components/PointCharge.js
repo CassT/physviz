@@ -1,17 +1,5 @@
 import React, { Component } from 'react';
 
-
-const vectorLineStyles = [
-    {
-        stroke:'rgb(255,0,0)',
-        strokeWidth: '1',
-    },
-    {
-        stroke:'rgb(0,0,255)',
-        strokeWidth: '1',
-    },
-]
-
 const vectorLineStyle = {
     stroke: 'rgb(255,0,0)',
     strokeWidth: '1',
@@ -22,17 +10,52 @@ const totalVectorLineStyle = {
     strokeWidth: '1',
 }
 
-export default class PointCharge extends Component {
+class PointCharge extends Component {
+    // handleMouseDown = (e) => {
+    //     console.log('handling mouse down', e)
+    //     this.coords = {
+    //         x: e.pageX,
+    //         y: e.pageY
+    //     }
+    //     document.addEventListener('mousemove', this.handleMouseMove);
+    // }
+
+    // handleMouseUp = () => {
+    //     document.removeEventListener('mousemove', this.handleMouseMove());
+    //     this.coords = {};
+    // }
+
+    // handleMouseMove = (e) => {
+    //     const {
+    //         charge,
+    //         x,
+    //         y,
+    //     } = this.props;
+    //     debugger;
+    //     const xDiff = this.coords.x - e.pageX;
+    //     const yDiff = this.coords.y - e.pageY;
+
+    //     this.coords.x = e.pageX;
+    //     this.coords.y = e.pageY;
+
+    //     this.props.updateCharge(
+    //         charge,
+    //         x - xDiff,
+    //         y - yDiff,
+    //     );
+    // }
+
     render() {
         var vectorLines = [];
         var coulumbForces = [];
         const {
             charges,
-            showPoint,
+            styling,
             showVectors,
             charge,
             x,
             y,
+            r,
         } = this.props;
         if (showVectors) { 
             for (var i=0; i < charges.length; i++) {
@@ -42,8 +65,8 @@ export default class PointCharge extends Component {
                 coulumbForces.push(forceFromCharge);
                 vectorLines.push(
                     <line 
-                        x1={x} 
-                        y1={y} 
+                        x1={x}
+                        y1={y}
                         x2={x + forceFromCharge.x}
                         y2={y + forceFromCharge.y}
                         style={vectorLineStyle[i]}
@@ -61,25 +84,28 @@ export default class PointCharge extends Component {
             totalVector.y += victor.y;
         }
         return (
-            <React.Fragment>
+            <g>
                 {vectorLines}
                 <line 
-                    x1={this.props.x}
-                    y1={this.props.y}
-                    x2={this.props.x + totalVector.x}
-                    y2={this.props.y + totalVector.y}
+                    x1={x}
+                    y1={y}
+                    x2={x + totalVector.x}
+                    y2={y + totalVector.y}
                     style={totalVectorLineStyle}
                 />
                 <circle 
-                    cx={this.props.x} 
-                    cy={this.props.y} 
-                    r={this.props.r} 
-                    style={this.props.styling}
+                    cx={x} 
+                    cy={y} 
+                    r={r} 
+                    style={styling}
+                    onClick={this.props.onClick}
                 />
-            </React.Fragment>
+            </g>
         );
     }
 }
+
+export default PointCharge;
 
 const coulumbForce = (sourceCharge, targetCharge) => {
     if (sourceCharge.x === targetCharge.x && sourceCharge.y === targetCharge.y) {

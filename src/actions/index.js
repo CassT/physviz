@@ -1,9 +1,28 @@
+let nextChargeId = 0;
 export function addPointCharge(charge, x, y) {
     return {
         type: 'ADD_POINT_CHARGE',
+        id: nextChargeId++,
         charge,
         x,
         y,
+    }
+}
+
+export function updatePointCharge(id, charge, x, y) {
+    return {
+        type: 'UPDATE_POINT_CHARGE',
+        id,
+        charge,
+        x,
+        y,
+    }
+}
+
+export function selectPointCharge(id) {
+    return {
+        type: 'SELECT_POINT_CHARGE',
+        id,
     }
 }
 
